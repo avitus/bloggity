@@ -3,19 +3,25 @@
 # blog_post: the blog post
 -%>
 
-<% responses = blog_post.comments.size %>
+<a name="comments"></a><% responses = blog_post.comments.size %>
 <div id="commentContainer">
-	<h2><%= pluralize(blog_post.approved_comments.size, 'response') %> to <%= blog_post.title %></h2>
-	<% if responses > 0 %>
-		<ul class="comments_body">
+	
+	<% cache( [@blog_post, "comments", responses, current_user ] ) do %>
+		
+		<h2><%= pluralize(blog_post.approved_comments.size, 'response') %> to <%= blog_post.title %></h2>
+		
+		<% if responses > 0 %>
 			<% blog_post.comments.each do |comment| %>
 				<% next unless comment.approved || (blog_logged_in? && (current_user.can_moderate_blog_comments?(blog_post.blog_id) || (comment.user == current_user))) %>
 				<%= render :partial => 'blog_comments/show', :locals => { :comment => comment } %>
 			<% end %>
-		</ul>
-	<% else %>
-		<p>No comments have been made on this blog.</p>
+		<% else %>
+			<p>No comments have been made on this blog.</p>
+		<% end %>
+		
 	<% end %>
+	
+	
 	<% if blog_logged_in? %>
 		<% if blog_post.comments_closed? %>
 			<p>Comments have been closed for this blog.</p>
