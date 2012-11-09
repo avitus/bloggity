@@ -1,29 +1,15 @@
-$:.unshift(File.dirname(__FILE__) + '/../lib')
+# Configure Rails Environment
+ENV["RAILS_ENV"] = "test"
 
-ENV['RAILS_ENV'] = 'test'
-ENV['Rails.root'] ||= File.dirname(__FILE__) + '/../../../..'
+require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+require "rails/test_help"
 
-require 'test/unit'
-require File.expand_path(File.join(ENV['Rails.root'], 'config/environment.rb'))
-require 'active_record'
-require 'active_record/fixtures'
-require 'action_controller/test_process'
-#require 'ruby-debug'
-#Debugger.start
+Rails.backtrace_cleaner.remove_silencers!
 
-FIXTURE_DIR = File.dirname(__FILE__) + '/fixtures'
-BLOGGITY_TABLES = ["blog_posts", "blog_comments", "blogs", "users"]
-file = FIXTURE_DIR + "/schema.rb"
-load(file)
+# Load support files
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
-@fixtures = Fixtures.create_fixtures(FIXTURE_DIR, BLOGGITY_TABLES)
-@built_fixtures = {}
-BLOGGITY_TABLES.each_with_index { |table, idx| @built_fixtures[table] = @fixtures[idx] }
-BLOGGITY_FIXTURES = @built_fixtures
-
-def get_fixture(class_name, record_name)
-	class_name.find(BLOGGITY_FIXTURES[class_name.table_name][record_name]["id"])
+# Load fixtures from the engine
+if ActiveSupport::TestCase.method_defined?(:fixture_path=)
+  ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 end
-
-#require File.join(File.dirname(__FILE__), 'fixtures/attachment')
-#require File.join(File.dirname(__FILE__), 'base_attachment_tests')

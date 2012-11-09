@@ -1,5 +1,4 @@
-require "bloggity/version"
+require "bloggity/engine"
 
 module Bloggity
-  # Your code goes here...
 end

@@ -1,17 +1,23 @@
-# -*- encoding: utf-8 -*-
-require File.expand_path('../lib/bloggity/version', __FILE__)
+$:.push File.expand_path("../lib", __FILE__)
 
-Gem::Specification.new do |gem|
-  gem.authors       = ["¨Andy¨"]
-  gem.email         = ["avitus@gmail.com"]
-  gem.description   = %q{A simple Rails 3.2 blog}
-  gem.summary       = %q{A simple Rails blog}
-  gem.homepage      = "http://www.github.com/avitus/bloggity"
+# Maintain your gem's version:
+require "bloggity/version"
 
-  gem.files         = `git ls-files`.split($\)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "bloggity"
-  gem.require_paths = ["lib"]
-  gem.version       = Bloggity::VERSION
+# Describe your gem and declare its dependencies:
+Gem::Specification.new do |s|
+  s.name        = "bloggity"
+  s.version     = Bloggity::VERSION
+  s.authors     = ["TODO: Your name"]
+  s.email       = ["TODO: Your email"]
+  s.homepage    = "TODO"
+  s.summary     = "TODO: Summary of Bloggity."
+  s.description = "TODO: Description of Bloggity."
+
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.test_files = Dir["test/**/*"]
+
+  s.add_dependency "rails", "~> 3.2.8"
+  # s.add_dependency "jquery-rails"
+
+  s.add_development_dependency "sqlite3"
 end
