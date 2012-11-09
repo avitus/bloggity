@@ -7,11 +7,11 @@ require "bloggity/version"
 Gem::Specification.new do |s|
   s.name        = "bloggity"
   s.version     = Bloggity::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Bloggity."
-  s.description = "TODO: Description of Bloggity."
+  s.authors     = ["Andy Vitus"]
+  s.email       = ["andy@gmail.com"]
+  s.homepage    = "https://github.com/avitus/bloggity"
+  s.summary     = "A Rails 3 Blogging Engine"
+  s.description = "A Rails 3 Blogging Engine"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
