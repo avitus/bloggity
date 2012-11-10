@@ -1,5 +1,8 @@
 class BlogPostsController < ApplicationController
-  before_filter :get_bloggity_page_name, :except => :blog_search
+  
+  # ALV: The page name doesn't seem to get used anywhere
+  # before_filter :get_bloggity_page_name, :except => :blog_search
+  
   before_filter :load_blog_post, :except => :blog_search
   before_filter :blog_writer_or_redirect, :except => [:close, :index, :show, :feed, :blog_search]
 	

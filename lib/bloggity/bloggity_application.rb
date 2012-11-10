@@ -1,25 +1,26 @@
 require 'bloggity/bloggity_page_names'
 require 'bloggity/bloggity_url_helper'
 
-module Bloggity::BloggityApplication
+module Bloggity
+	
 	include BloggityPageNames
 	include BloggityUrlHelper
 	
 	# Implement in your application - commented out 3/10/2010
-#	def current_user
-#		User.find(1)
-#	end
-	
-	# Implement in your application - commented out 3/10/2010
-#	def login_required
-#		if current_user
-#      true
-#    else
-#			flash[:error] = "Login required to do this action."
-#			redirect_to :controller => "blog_posts" # Send them to wherever they login on your site...
-#	    false
-#	  end
-#  end
+	#	def current_user
+	#		User.find(1)
+	#	end
+		
+		# Implement in your application - commented out 3/10/2010
+	#	def login_required
+	#		if current_user
+	#      true
+	#    else
+	#			flash[:error] = "Login required to do this action."
+	#			redirect_to :controller => "blog_posts" # Send them to wherever they login on your site...
+	#	    false
+	#	  end
+	#  end
 	
 	def blog_logged_in?
 		current_user && current_user.user_signed_in?
@@ -63,10 +64,10 @@ module Bloggity::BloggityApplication
 		end
 	end
 		
-  # ALV: This doesn't seem particularly useful as @page_name is never displayed in any view
-  def get_bloggity_page_name
-    logger.debug("*** Looking up page name for controller: #{params[:controller]} and action: #{params[:method]}")
-  	@page_name = look_up_page_name(params[:controller], params[:action])
-  end
+	# ALV: This doesn't seem particularly useful as @page_name is never displayed in any view
+	# def get_bloggity_page_name
+	# 	logger.debug("*** Looking up page name for controller: #{params[:controller]} and action: #{params[:method]}")
+	# 	@page_name = look_up_page_name(params[:controller], params[:action])
+	# end
   
 end
