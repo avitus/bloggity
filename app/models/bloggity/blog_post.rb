@@ -19,8 +19,8 @@
 #  blog_id         :integer(4)      
 #
 
+module Bloggity
 class BlogPost < ActiveRecord::Base
-  include BloggityUrlHelper
   
   belongs_to :posted_by, :class_name => 'User'
   belongs_to :category, :class_name => 'BlogCategory'
@@ -101,4 +101,6 @@ class BlogPost < ActiveRecord::Base
       self.tweeted = true
     end
   end
+
+end
 end

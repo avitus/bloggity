@@ -67,80 +67,99 @@ namespace :bloggity do
 end
 
 class CreateBlogTables < ActiveRecord::Migration
+
 	def self.up
-		create_table "blog_assets" do |t|
-	    t.integer "blog_post_id"
-	    t.integer "parent_id"
-	    t.string  "content_type"
-	    t.string  "filename"
-	    t.string  "thumbnail"
-	    t.integer "size"
-	    t.integer "width"
-	    t.integer "height"
+		create_table :bloggity_blog_assets do |t|
+	    t.integer :blog_post_id
+	    t.integer :parent_id
+	    t.string  :content_type
+	    t.string  :filename
+	    t.string  :thumbnail
+	    t.integer :size
+	    t.integer :width
+	    t.integer :height
 	  end
 		
-	  create_table "blogs" do |t|
-	    t.string   "title"
-			t.string   "subtitle"
-			t.string   "url_identifier"
-			t.string   "stylesheet"
-			t.string   "feedburner_url"
-	    t.datetime "created_at"
-	    t.datetime "updated_at"
+	  create_table :bloggity_blogs do |t|
+	    t.string   :title
+		t.string   :subtitle
+		t.string   :url_identifier
+		t.string   :stylesheet
+		t.string   :feedburner_url
+	    t.datetime :created_at
+	    t.datetime :updated_at
 	  end
 		
-	  add_index "blogs", ["url_identifier"], :name => "index_blogs_on_url_identifier"
+	  add_index :bloggity_blogs, ["url_identifier"], :name => "index_blogs_on_url_identifier"
 		
-	  create_table "blog_categories" do |t|
-	    t.string   "name"
-			t.integer  "parent_id"
-	    t.integer  "blog_id"
-	    t.datetime "created_at"
-	    t.datetime "updated_at"
+	  create_table :bloggity_blog_categories do |t|
+	    t.string   :name
+		t.integer  :parent_id
+	    t.integer  :blog_id
+	    t.datetime :created_at
+	    t.datetime :updated_at
 	  end
 	
-		add_index "blog_categories", ["blog_id"], :name => "index_blog_categories_on_blog_id"
-	  add_index "blog_categories", ["parent_id"], :name => "index_blog_categories_on_parent_id"
+	  add_index :bloggity_blog_categories, ["blog_id"], :name => "index_blog_categories_on_blog_id"
+	  add_index :bloggity_blog_categories, ["parent_id"], :name => "index_blog_categories_on_parent_id"
 	
-	  create_table "blog_comments" do |t|
-	    t.integer  "user_id"
-	    t.integer  "blog_post_id"
-	    t.text     "comment"
-	    t.boolean  "approved"
-	    t.datetime "created_at"
-	    t.datetime "updated_at"
+	  create_table :bloggity_blog_comment do |t|
+	    t.integer  :user_id
+	    t.integer  :blog_post_id
+	    t.text     :comment
+	    t.boolean  :approved
+	    t.datetime :created_at
+	    t.datetime :updated_at
 	  end
 	  
-		add_index "blog_comments", ["blog_post_id"], :name => "index_blog_comments_on_blog_post_id"
+	  add_index :bloggity_blog_comments, ["blog_post_id"], :name => "index_blog_comments_on_blog_post_id"
 		
-		create_table "blog_tags" do |t|
-			t.string   "name"
-			t.integer  "blog_post_id"
-	    t.datetime "created_at"
-	    t.datetime "updated_at"
-		end
-					
-	  add_index "blog_tags", ["blog_post_id"], :name => "index_blog_tags_on_blog_post_id"
-		
-	  create_table "blog_posts" do |t|
-	    t.string   "title"
-	    t.text     "body"
-	    t.string   "tag_string"
-	    t.integer  "posted_by_id"
-	    t.boolean  "is_complete"
-	    t.datetime "created_at"
-	    t.datetime "updated_at"
-	    t.string   "url_identifier"
-	    t.boolean  "comments_closed"
-	    t.integer  "category_id"
-	    t.integer  "blog_id",   :default => 1
-	    t.boolean  "fck_created"
+	  create_table :bloggity_blog_tags do |t|
+		t.string   :name
+		t.integer  :blog_post_id
+	    t.datetime :created_at
+	    t.datetime :updated_at
 	  end
-	
-	  add_index "blog_posts", ["category_id"], :name => "index_blog_posts_on_category_id"
-		add_index "blog_posts", ["url_identifier"], :name => "index_blog_posts_on_url_identifier"
-		add_index "blog_posts", ["blog_id"], :name => "index_blog_posts_on_blog_id"
+					
+	  add_index :bloggity_blog_tags, ["blog_post_id"], :name => "index_blog_tags_on_blog_post_id"
+		
+	  create_table :bloggity_blog_posts do |t|
+	    t.string   :title
+	    t.text     :body
+	    t.string   :tag_string
+	    t.integer  :posted_by_id
+	    t.boolean  :is_complete
+	    t.datetime :created_at
+	    t.datetime :updated_at
+	    t.string   :url_identifier
+	    t.boolean  :comments_closed
+	    t.integer  :category_id
+	    t.integer  :blog_id,   :default => 1
+	    t.boolean  :fck_created
+	  end
 
-		Blog.create(:title => "My Bloggity Blog", :subtitle => "No, this blog doesn't have a subtitle.  What's it to ya?", :url_identifier => 'main')
+	  create_table :bloggity_blog_categories do |t|
+        t.string :name
+	    t.integer :parent_id
+        t.integer :group_id, :default => 0		
+        t.timestamps
+      end
+	
+	  add_index :bloggity_blog_categories, :parent_id
+	  add_index :bloggity_blog_categories, :group_id
+
+	  add_column :bloggity_blogs, :fck_created, :boolean
+	  add_index :bloggity_blogs,  :category_id
+
+	  add_index :bloggity_blog_posts, ["category_id"], 	  :name => "index_blog_posts_on_category_id"
+	  add_index :bloggity_blog_posts, ["url_identifier"], :name => "index_blog_posts_on_url_identifier"
+	  add_index :bloggity_blog_posts, ["blog_id"], 		  :name => "index_blog_posts_on_blog_id"
+
+	  Blog.create(:title => "My Bloggity Blog", :subtitle => "No, this blog doesn't have a subtitle.  What's it to ya?", :url_identifier => 'main')
+	
+	  bc = BlogCategory.create(:name => "Main blog")
+	  BlogPost.update_all(["category_id = ?", bc.id])
+
 	end
 end
+

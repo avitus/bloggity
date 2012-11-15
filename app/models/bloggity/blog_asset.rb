@@ -14,8 +14,9 @@
 #  height       :integer(11)     
 #
 
+module Bloggity
 class BlogAsset < ActiveRecord::Base
-	belongs_to :blog_post
+  belongs_to :blog_post
 	
   has_attached_file :blog_attachment, :styles => { :medium => "800x600>", :thumb => "267x214>" }	
 	
@@ -36,4 +37,5 @@ class BlogAsset < ActiveRecord::Base
 # 		
 	# validates_as_attachment
 		
+end
 end

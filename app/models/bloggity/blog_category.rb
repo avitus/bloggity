@@ -3,6 +3,8 @@
 #  t.integer  "blog_id"
 #  t.datetime "created_at"
 #  t.datetime "updated_at"
-			
-class BlogCategory < ActiveRecord::Base
+	
+module Bloggity		
+	class BlogCategory < ActiveRecord::Base
+	end
 end

@@ -1,7 +1,5 @@
 require "active_support/dependencies"
-
 require "bloggity/engine"
-require "bloggity/bloggity_application"
 
 module Bloggity
 

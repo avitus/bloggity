@@ -1,3 +1,5 @@
+module Bloggity
+
 class BlogCategoriesController < ApplicationController
   before_filter :load_blog_category, :only => [:show, :edit, :destroy, :update]
 	before_filter :can_modify_blogs_or_redirect
@@ -86,4 +88,6 @@ class BlogCategoriesController < ApplicationController
 		@blog_category = BlogCategory.find(params[:id])
 		@blog_id = @blog_category.try(:blog_id)
 	end
+end
+
 end

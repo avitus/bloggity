@@ -5,5 +5,7 @@
 # t.datetime "created_at"
 # t.datetime "updated_at"
 
-class Blog < ActiveRecord::Base
+module Bloggity
+	class Blog < ActiveRecord::Base
+	end
 end

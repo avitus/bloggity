@@ -1,3 +1,4 @@
+module Bloggity
 class BlogCommentsController < ApplicationController
 	helper :blogs
 	before_filter :authenticate_user!
@@ -72,4 +73,5 @@ class BlogCommentsController < ApplicationController
 			true
 		end
 	end
+end
 end
