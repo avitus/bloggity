@@ -1,5 +1,8 @@
 <%= page_title I18n.t('menu.blog') %>
 
+<!-- Namespace for Bloggity styles -->
+<% content_for :body_css do %>id='bloggity_container'<% end -%>
+
 <div id="main_content">
 
 	<%= flash[:error] %>
@@ -29,7 +32,7 @@
 	
 		<!-- Show each post -->
 		<% for blog_post in @blog_posts %>
-			<%= render :partial => 'show', :locals => { :blog_post => blog_post, :header_style => 'h2', :show_comment_count => true } %>
+			<%= render :partial => 'bloggity/blog_posts/show', :locals => { :blog_post => blog_post, :header_style => 'h2', :show_comment_count => true } %>
 		<% end %>
 
 		<!-- Pagination -->		
@@ -42,4 +45,4 @@
 </div>
 
 <!-- Right side navigation -->
-<%= render :partial => 'side_nav' %>
+<%= render :partial => 'bloggity/blog_posts/side_nav' %>

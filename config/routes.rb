@@ -32,8 +32,8 @@ Bloggity::Engine.routes.draw do
 	match '/blog_comments_new',      :to => 'blog_comments#recent_comments',                   :as => 'blog_comments_new'
 	match '/blog_search',            :to => 'blog_posts#blog_search',                          :as => 'blog_search'
 
-	match  'blog/:blog_url_id_or_id',     :to => 'blog_posts#index'
-	match  'blog/:blog_url_id_or_id/:id', :to => 'blog_posts#show'
+	match  ':blog_url_id_or_id',     :to => 'blog_posts#index'
+	match  ':blog_url_id_or_id/:id', :to => 'blog_posts#show'
 	match  'blog',                        :to => 'blog_posts#index', :as => 'blog', :blog_url_id_or_id => 'main'
 
 

@@ -13,7 +13,7 @@
 		<% if responses > 0 %>
 			<% blog_post.comments.each do |comment| %>
 				<% next unless comment.approved || (blog_logged_in? && (current_user.can_moderate_blog_comments?(blog_post.blog_id) || (comment.user == current_user))) %>
-				<%= render :partial => 'blog_comments/show', :locals => { :comment => comment } %>
+				<%= render :partial => 'bloggity/blog_comments/show', :locals => { :comment => comment } %>
 			<% end %>
 		<% else %>
 			<p>No comments have been made on this blog.</p>
@@ -31,7 +31,7 @@
 			<div style="padding:5px;">
 				Logged in as <%= current_user.display_name %> 
 				<% unless blog_post.comments_closed? -%>
-  				<%= render :partial => 'blog_comments/new', :locals => { :blog_post => blog_post } %>
+  				<%= render :partial => 'bloggity/blog_comments/new', :locals => { :blog_post => blog_post } %>
 				<% end -%><br />
 			</div>
 		<% end %>

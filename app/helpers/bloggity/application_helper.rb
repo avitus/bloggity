@@ -1,7 +1,12 @@
 module Bloggity
   module ApplicationHelper
+  	
+  	include PageNamesHelper
+  	include UrlHelper
 
 	def blog_logged_in?
+		Rails.logger.debug("Current user login: #{current_user.login}")
+		Rails.logger.debug("Current user id: #{current_user.id}")
 		current_user && current_user.user_signed_in?
 	end
 	
@@ -15,12 +20,13 @@ module Bloggity
 	end
 	
 	def blog_writer_or_redirect
+		Rails.logger.debug("==== Current user can blog: #{current_user.can_blog?(@blog_id)}")
 		if @blog_id && current_user && current_user.can_blog?(@blog_id)
 			true
 		else
 			flash[:error] = "You don't have permission to do that."
 			redirect_to "/blog"
-	    false
+	      false
 		end
 	end
 	
@@ -42,6 +48,17 @@ module Bloggity
 			false
 		end
 	end
+
+	# ----------------------------------------------------------------------------------------------------------             
+    # SEO Goodness
+    #----------------------------------------------------------------------------------------------------------   
+    def page_title(title = nil)
+      if title
+        content_for(:page_title) { title + " - Memverse" }
+      else
+        content_for?(:page_title) ? content_for(:page_title) : "Memverse"
+      end
+    end
 
   	
   end

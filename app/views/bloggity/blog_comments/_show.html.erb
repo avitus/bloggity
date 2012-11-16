@@ -6,17 +6,20 @@
 
 <div id="comment-<%= comment.id %>" class="comment <%= comment.approved ? "approved" : "not_approved" %>">
 
-	<%= link_to (image_tag comment.user.blog_avatar_url), user_path(comment.user), {:class => "comment-img"} unless !comment.user %>
+	<%= link_to (image_tag comment.user.blog_avatar_url), [main_app, comment.user], {:class => "comment-img"} unless !comment.user %>
 	
 	<div class="comment-head">
-		<%= link_to(comment.user.display_name, comment.user, :class => "commenter") unless !comment.user %>
+		<%= link_to(comment.user.display_name, [main_app, comment.user], :class => "commenter") unless !comment.user %>
 		<%= time_tag comment.created_at %>
 	</div>
+	
 	<div class="comment-body">
+
 		<%= simple_format(Rinku.auto_link(sanitize(comment.comment))) %>
+		
 		<ul class="comment-actions">
 			<% if blog_logged_in? && (current_user == comment.user || current_user.can_moderate_blog_comments?(@blog_id)) %>
-				<li><%= link_to "Edit", { :controller => 'blog_comments', :action => :edit, :id => comment.id } %></li>
+				<li><%= link_to "Edit", edit_blog_comment_path(comment.id) %></li>
 			<% end %>
 			
 			<% if blog_logged_in? && current_user.can_moderate_blog_comments?(@blog_id) %>
@@ -30,5 +33,6 @@
 		<% unless comment.approved %>
 			<p><em>Comment awaiting moderator approval.</em></p>
 		<% end %>
+
 	</div>
 </div>

@@ -3,7 +3,7 @@
 # blog: the blog post
 -%>
 
-<%= form_for(BlogComment.new, :url => { :controller => 'blog_comments', :action => :create }) do |f| %>
+<%= form_for(Bloggity::BlogComment.new, :url => blog_comments_path ) do |f| %>
 	<%= f.hidden_field :blog_post_id, :value => blog_post.id %>
 	
 	<script type="text/javascript">
