@@ -6,7 +6,7 @@ module Bloggity
 			
 			if blog_post
 				case the_action
-			        when :quest   then "#{DOMAIN_NAME}/blog/#{blog_post.blog.url_identifier}/#{blog_post.url_identifier}"   
+			    when :quest   then "#{DOMAIN_NAME}/blog/#{blog_post.blog.url_identifier}/#{blog_post.url_identifier}"   
 					when :show    then "/blog/#{blog_post.blog.url_identifier}/#{blog_post.url_identifier}"
 					when :list    then "/blog/#{blog_post.blog.url_identifier}/#{blog_post.url_identifier}?page=#{options[:page]}"
 					when :index   then "/blog/#{options[:blog].url_identifier}"

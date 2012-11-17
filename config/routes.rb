@@ -4,22 +4,22 @@ Bloggity::Engine.routes.draw do
 
 	resources :blogs do
 
-	resources :blog_posts do     
-	  
-	collection do
-		get :pending
-		post :create_asset
-	end
+		resources :blog_posts do     
+		  
+			collection do
+				get :pending
+				post :create_asset
+			end
 
-	member do
-		get :close
-	end
+			member do
+				get :close
+			end
 
-	end
+		end
 
-	member do
-		get :feed
-	end
+		member do
+			get :feed
+		end
 
 	end	
 	
@@ -34,8 +34,6 @@ Bloggity::Engine.routes.draw do
 
 	match  ':blog_url_id_or_id',     :to => 'blog_posts#index'
 	match  ':blog_url_id_or_id/:id', :to => 'blog_posts#show'
-	match  'blog',                        :to => 'blog_posts#index', :as => 'blog', :blog_url_id_or_id => 'main'
-
-
+	match  'blog',                   :to => 'blog_posts#index', :as => 'blog', :blog_url_id_or_id => 'main'
 
 end
