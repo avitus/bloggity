@@ -13,7 +13,10 @@ module Bloggity
 		if(blog_id.blank? && (blog_url_identifier = params[:blog_url_id_or_id]))
 			@blog = Blog.find_by_url_identifier(blog_url_identifier)
 		end
-		@blog_id = blog_id || (@blog && @blog.id) || blog_url_identifier || 1 # There is a default BlogSet created when the DB is bootstrapped, so we know we'll be able to fall back on this
+
+		# There is a default BlogSet created when the DB is bootstrapped, so we know we'll be able to fall back on this
+		# We're using id=9 for now since this is the ID of the Memverse blog. Yes, ugliness abounds.
+		@blog_id = blog_id || (@blog && @blog.id) || blog_url_identifier || 9 
 		@blog = Blog.find(@blog_id) unless @blog
 	end
 	
