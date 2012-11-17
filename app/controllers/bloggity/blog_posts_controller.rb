@@ -155,8 +155,8 @@ module Bloggity
   	def pending
       @tab = "blog" 
       blog_page = params[:page] || 1
-  		@pending_posts = BlogPost.paginate(:all, :conditions => ["blog_id = ? AND is_complete = ?", @blog_id, false], :order => "blog_posts.created_at DESC", :page => blog_page, :per_page => 15)
-  		@recent_posts = recent_posts(blog_page)
+  		@pending_posts = BlogPost.where(:blog_id => @blog_id, :is_complete => false).page(@blog_page).order("created_at DESC")
+      @recent_posts = recent_posts(blog_page)
   	end
   	
   	
