@@ -20,12 +20,12 @@
 
   <p>
     Parent category<br />
-    <%= f.select :parent_id, BlogCategory.find(:all, :conditions => { :parent_id => nil }).collect { |bc| [bc.name, bc.id] }.insert(0, ["None", nil]) %>
+    <%= f.select :parent_id, Bloggity::BlogCategory.find(:all, :conditions => { :parent_id => nil }).collect { |bc| [bc.name, bc.id] }.insert(0, ["None", nil]) %>
   </p>
 
   <p>
     <%= f.label :blog_id %><br />
-    <%= f.select :blog_id, Blog.find(:all).collect { |b| [b.title, b.id] } %>
+    <%= f.select :blog_id, Bloggity::Blog.find(:all).collect { |b| [b.title, b.id] } %>
   </p>
 
   <p>

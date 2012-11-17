@@ -22,7 +22,7 @@
 		<% end %>
 	
 		<!-- Filter by category -->	
-		<% if !params[:category_id].blank? && (cat = BlogCategory.find_by_id(params[:category_id])) %>
+		<% if !params[:category_id].blank? && (cat = Bloggity::BlogCategory.find_by_id(params[:category_id])) %>
 			<div>Filtering all blogs in category "<%= cat.name -%>."  <%= link_to "Clear filter", blog_named_link(nil, :index, { :blog => @blog }) -%></div>
 		<% end %>
 	
