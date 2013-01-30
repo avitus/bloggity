@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/avitus/bloggity)
+
 # Bloggity
 
 TODO: Write a gem description
