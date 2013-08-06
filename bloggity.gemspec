@@ -10,15 +10,15 @@ Gem::Specification.new do |s|
   s.authors      = ["Andy Vitus"]
   s.email        = ["andy@gmail.com"]
   s.homepage     = "https://github.com/avitus/bloggity"
-  s.summary      = "A Rails 3 Blogging Engine"
-  s.description  = "A Rails 3 Blogging Engine"
+  s.summary      = "A Rails Blogging Engine"
+  s.description  = "A Rails Blogging Engine"
 
   s.files        = `git ls-files`.split("\n")
   s.require_path = 'lib'  # ALV: not included by default
 
   s.test_files   = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 3.2.8"
+  s.add_dependency "rails", ">= 3.2.8"
   s.add_dependency "jquery-rails"
 
   s.add_development_dependency "sqlite3"
