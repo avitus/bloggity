@@ -34,6 +34,7 @@ Bloggity::Engine.routes.draw do
 
 	get  ':blog_url_id_or_id',     :to => 'blog_posts#index'
 	get  ':blog_url_id_or_id/:id', :to => 'blog_posts#show'
-	get  'blog',                   :to => 'blog_posts#index', :as => 'blog', :blog_url_id_or_id => 'main'
+	# get  'blog',                   :to => 'blog_posts#index', :as => 'blog', :blog_url_id_or_id => 'main'
+	get  'blog',                   :to => 'blog_posts#index', :blog_url_id_or_id => 'main'
 
 end
