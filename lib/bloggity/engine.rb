@@ -14,9 +14,6 @@ module Bloggity
       # add bloggity helpers to main application
       ::ApplicationController.send :helper, Bloggity::Engine.helpers
 
-      # Add Bloggity model directory when engine loads
-      # ThinkingSphinx::Configuration.instance.model_directories << "#{Rails.root}/app/models/"
-
     end
 
   end
