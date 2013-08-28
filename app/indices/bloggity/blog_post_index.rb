@@ -2,7 +2,7 @@
 # Sphinx Index
 # ----------------------------------------------------------------------------------------------------------
 
-module bloggity
+module Bloggity
 
   ThinkingSphinx::Index.define :blog_post, :with => :active_record do
       # fields
