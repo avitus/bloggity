@@ -166,7 +166,7 @@ module Bloggity
   	def blog_search_results
   		@tab = "blog"
       @sub = "blogsearch"
-      @blog_search_results = BlogPost.search( params[:search_param] )
+      @blog_search_results = BlogPost.search( Riddle::Query.escape(params[:search_param]) )
       respond_to do |format|
         format.html { render :partial => 'blog_search_results', :layout=>false }
         format.xml  { render :xml 	=> @blog_search_results }
@@ -181,7 +181,7 @@ module Bloggity
       @tab = "blog"
       @sub = "blogsearch"
   		@blog_search_results = Array.new
-  	  @blog_search_results = BlogPost.search( params[:search_param] || "memorize" )
+  	  @blog_search_results = BlogPost.search( Riddle::Query.escape(params[:search_param] || "memorize") )
   	end
 
   	# --------------------------------------------------------------------------------------
