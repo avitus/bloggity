@@ -38,13 +38,13 @@ class BlogCommentsController < ApplicationController
 
   def destroy
 		@blog_comment.destroy
-		redirect_to(params[:referring_url])
+		redirect_to request.referrer
 	end
 
 	def approve
-		flash[:message] = "Comment was approved!"
+		flash[:notice] = "Comment was approved!"
 		@blog_comment.update_attribute(:approved, true)
-		redirect_to(params[:referring_url])
+		redirect_to request.referrer
 	end
 
   # Added by ALV
