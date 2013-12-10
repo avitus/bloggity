@@ -4,11 +4,11 @@ class BlogsController < ApplicationController
 #	before_filter :can_modify_blogs_or_redirect, :except => [:feed, :show]
 #	before_filter :load_blog, :only => [:feed, :show]
 	add_breadcrumb "Home", "/home"
-  
+
   def index
     @tab = "blog"
     @blogs = Blog.all
-   
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @blogs }
@@ -21,7 +21,7 @@ class BlogsController < ApplicationController
 			redirect_to "/blog/#{@blog.url_identifier || @blog.id}"
 		else
 			redirect_to "/blog"
-		end    
+		end
   end
 
   def new
@@ -78,26 +78,28 @@ class BlogsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-	
+
   # GET the blog as a feed
 	def feed
-	  
+
 	  request.format = "xml" unless params[:format]
-	  
-		@blog = Blog.find(:first, :conditions => ["url_identifier = ? OR id = ?", params[:id], params[:id]])
+
+    @blog = Blog.where("url_identifier = ? OR id = ?", params[:id], params[:id]).first
+
 		unless @blog
 			flash[:error] = "Couldn't find that feed."
 			redirect_to(:controller => 'blog_posts', action => :index)
 			return
 		end
+
 		@blog_id = @blog.id
-		@blog_posts = BlogPost.find(:all, :conditions => ["blog_id = ? AND is_complete = ?", @blog_id, true], :order => "blog_posts.created_at DESC", :limit => 15)
+		@blog_posts = BlogPost.where(:blog_id => @blog_id, :is_complete => true).order("created_at DESC").limit(15)
     respond_to do |format|
       format.xml
     end
 	end
-	
-	private 
-	
+
+	private
+
 end
 end
