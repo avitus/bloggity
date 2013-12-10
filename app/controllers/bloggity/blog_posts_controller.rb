@@ -21,7 +21,7 @@ module Bloggity
 
   		@blog_page = params[:page] || 1
   	  @recent_posts = recent_posts(@blog_page)
-  		@blog_posts = if(params[:tag_name] || params[:category_id])
+  		@blog_posts = if ( params[:tag_name] || params[:category_id] )
   			# This is how I'd *like* to filter on tag/category:
   			#search_condition = { :blog_id => @blog_id, :is_complete => true }
   			#search_condition.merge!(:blog_tags => { :name => params[:tag_name] }) if params[:tag_name]
@@ -30,7 +30,7 @@ module Bloggity
 
   			# So alas... we must hack away:
   			search_condition = ["blog_id = ? AND is_complete = ? #{"AND bloggity_blog_tags.name = ?" if params[:tag_name]} #{"AND category_id = ?" if params[:category_id]}", @blog_id, true, params[:tag_name], params[:category_id]].compact
-        BlogPost.where(search_condition).select("DISTINCT blog_posts.*").includes(:tags).page(@blog_page).order("bloggity_blog_posts.created_at DESC")
+        BlogPost.where(search_condition).includes(:tags).page(@blog_page).order("bloggity_blog_posts.created_at DESC")
   		else
   			logger.info("*** Showing recent posts ")
   			@recent_posts
