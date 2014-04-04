@@ -34,7 +34,7 @@ class BlogPost < ActiveRecord::Base
 
   validates_presence_of :blog_id, :posted_by_id
   validate :authorized_to_blog?
-  validates :url_identifier, :uniqueness => true
+#   validates :url_identifier, :uniqueness => true
 
   # Recommended... but only if you have it:
   # xss_terminate :except => [ :body ]
