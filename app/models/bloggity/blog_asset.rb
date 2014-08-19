@@ -27,6 +27,7 @@ class BlogAsset < ActiveRecord::Base
       "image/gif",
       "application/pdf"]
 
+  validates_attachment_file_name :blog_attachment, :matches => [/png\Z/, /jpe?g\Z/, /pdf\Z/]
 	# has_attachment  
 	  # :content_type   => :image,
 		# :storage        => :file_system,
