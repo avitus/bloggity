@@ -20,6 +20,13 @@ class BlogAsset < ActiveRecord::Base
 	
   has_attached_file :blog_attachment, :styles => { :medium => "800x600>", :thumb => "267x214>" }	
 	
+  validates_attachment_content_type :blog_attachment, content_type:
+     ["image/jpg",
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "application/pdf"]
+
 	# has_attachment  
 	  # :content_type   => :image,
 		# :storage        => :file_system,
