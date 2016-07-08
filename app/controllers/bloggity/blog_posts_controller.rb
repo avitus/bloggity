@@ -31,8 +31,10 @@ module Bloggity
   			# is ignored by the test suite or script/server, respectively, when using this logic.
 
   			# So alas... we must hack away:
-  			search_condition = ["blog_id = ? AND is_complete = ? #{"AND bloggity_blog_posts.bloggity_blog_tags.name = ?" if params[:tag_name]} #{"AND category_id = ?" if params[:category_id]}", @blog_id, true, params[:tag_name], params[:category_id]].compact
-        BlogPost.includes(:tags).where(search_condition).page(@blog_page).order("bloggity_blog_posts.created_at DESC")
+  			search_condition = ["blog_id = ? AND is_complete = ? #{"AND bloggity_blog_tags.name = ?" if params[:tag_name]} #{"AND category_id = ?" if params[:category_id]}", @blog_id, true, params[:tag_name], params[:category_id]].compact
+        BlogPost.includes(:tags).where(search_condition).references(:tags)
+                .page(@blog_page)
+                .order("bloggity_blog_posts.created_at DESC")
   		else
   			logger.info("*** Showing recent posts ")
   			@recent_posts
