@@ -125,7 +125,7 @@ module Bloggity
     # POST /blog_posts.xml
     def create
       @tab = "blog"
-      @blog_post = BlogPost.new(params[:blog_post])
+      @blog_post = BlogPost.new( blog_post_params )
       @blog_post.posted_by = current_user
 
       if(@blog_post.save)
@@ -140,7 +140,7 @@ module Bloggity
     def update
       @blog_post = BlogPost.find(params[:id])
 
-      if @blog_post.update_attributes(params[:blog_post])
+      if @blog_post.update_attributes( blog_post_params )
         redirect_to blog_named_link(@blog_post)
       else
         render blog_named_link(@blog_post, :edit)
@@ -193,6 +193,10 @@ module Bloggity
   	private
   	# --------------------------------------------------------------------------------------
   	# --------------------------------------------------------------------------------------
+
+    def blog_post_params
+      params.require(:blog_post).permit(:blog_id, :title, :body, :category_id, :tag_string, :is_complete)
+    end
 
   	def load_blog_post
   		load_blog
