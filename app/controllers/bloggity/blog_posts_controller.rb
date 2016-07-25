@@ -195,8 +195,8 @@ module Bloggity
   	# --------------------------------------------------------------------------------------
 
     def blog_post_params
-      # params.require(:blog_post).permit(:blog_id, :title, :body, :category_id, :tag_string, :is_complete)
-      params.permit!
+      params.require(:blog_post).permit(:blog_id, :title, :body, :category_id, :tag_string, :is_complete)
+      # params.permit!
     end
 
   	def load_blog_post
