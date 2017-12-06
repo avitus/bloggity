@@ -1,4 +1,4 @@
-class BloggityUpgrade < ActiveRecord::Migration
+class BloggityUpgrade < ActiveRecord::Migration[4.2]
   def self.up
 		create_table :blog_categories do |t|
       t.string :name

@@ -77,7 +77,8 @@ class BlogPost < ActiveRecord::Base
 
   def save_tags
     return if self.tag_string.blank?
-    BlogTag.delete_all(["blog_post_id = ?", self.id])
+    # BlogTag.delete_all(["blog_post_id = ?", self.id])
+    BlogTag.where(blog_post_id: self.id).delete_all
     these_tags = self.tag_string.split(",")
     these_tags.each do |tag|
       sanitary_tag = tag.strip.chomp

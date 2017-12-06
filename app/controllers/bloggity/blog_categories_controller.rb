@@ -4,8 +4,8 @@ class BlogCategoriesController < ApplicationController
 
   include Bloggity::ApplicationHelper
 
-  before_filter :load_blog_category, :only => [:show, :edit, :destroy, :update]
-	before_filter :can_modify_blogs_or_redirect
+  before_action :load_blog_category, :only => [:show, :edit, :destroy, :update]
+	before_action :can_modify_blogs_or_redirect
 	
 	# GET /blog_categories
   # GET /blog_categories.xml

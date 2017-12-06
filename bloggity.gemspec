@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name         = "bloggity"
   s.version      = Bloggity::VERSION
   s.authors      = ["Andy Vitus"]
-  s.email        = ["andy@gmail.com"]
+  s.email        = ["avitus@gmail.com"]
   s.homepage     = "https://github.com/avitus/bloggity"
   s.summary      = "A Rails Blogging Engine"
   s.description  = "A Rails Blogging Engine"
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.test_files   = Dir["test/**/*"]
 
-  s.add_dependency "rails", ">= 3.2.8"
+  s.add_dependency "rails", ">= 4.0"
   s.add_dependency "jquery-rails"
 
   s.add_development_dependency "sqlite3"

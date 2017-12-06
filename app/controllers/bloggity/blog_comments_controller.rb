@@ -3,9 +3,9 @@ class BlogCommentsController < ApplicationController
 
   include Bloggity::ApplicationHelper
 
-  before_filter :authenticate_user!
-  before_filter :load_blog_comment, :only => [:approve, :destroy, :edit, :update]
-  before_filter :blog_comment_moderator_or_redirect, :only => [:approve, :destroy]
+  before_action :authenticate_user!
+  before_action :load_blog_comment, :only => [:approve, :destroy, :edit, :update]
+  before_action :blog_comment_moderator_or_redirect, :only => [:approve, :destroy]
 
   add_breadcrumb "Home", "/home"
   add_breadcrumb "Blog", "/blog"

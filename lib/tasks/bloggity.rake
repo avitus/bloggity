@@ -66,7 +66,7 @@ namespace :bloggity do
 	
 end
 
-class CreateBlogTables < ActiveRecord::Migration
+class CreateBlogTables < ActiveRecord::Migration[4.2]
 
 	def self.up
 		create_table :bloggity_blog_assets do |t|
