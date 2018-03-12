@@ -12,11 +12,10 @@ class BlogCommentsController < ApplicationController
 
   protect_from_forgery :except => [:create]
 
-  # POST /blogs_comments
-	# POST /blogs_comments.xml
+
 	def create
 		if current_user.can_comment? && params[:subject].empty?
-			@blog_comment = BlogComment.new(params[:blog_comment])
+			@blog_comment = BlogComment.new(blog_comment_params)
 			@blog_comment.user_id = current_user.id
 			@blog_comment.save
 			@blog_post = @blog_comment.blog_post
@@ -32,7 +31,7 @@ class BlogCommentsController < ApplicationController
 	end
 
 	def update
-		@blog_comment.update_attributes(params[:blog_comment])
+		@blog_comment.update_attributes(blog_comment_params)
 		redirect_to(blog_named_link(@blog_post))
 	end
 
@@ -54,7 +53,6 @@ class BlogCommentsController < ApplicationController
     add_breadcrumb I18n.t("blog_menu.Recent Comments"), "/blog_comments_new"
 
     @newest_comments = Rails.cache.fetch("recent_comments", :expires_in => 30.minutes) do
-			# BlogComment.find_all_by_approved(true, :all, :limit => 40, :order => "created_at DESC")
       BlogComment.where(:approved => true).order("created_at DESC").limit(40)
 		end
   end
@@ -72,5 +70,13 @@ class BlogCommentsController < ApplicationController
 			true
 		end
 	end
+
+	private
+
+  def blog_comment_params
+    params.require(:blog_comment).permit(:comment)
+  end
+
+
 end
 end
