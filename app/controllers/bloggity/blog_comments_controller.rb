@@ -12,7 +12,6 @@ class BlogCommentsController < ApplicationController
 
   protect_from_forgery :except => [:create]
 
-
 	def create
 		if current_user.can_comment? && params[:subject].empty?
 			@blog_comment = BlogComment.new(blog_comment_params)
@@ -74,9 +73,8 @@ class BlogCommentsController < ApplicationController
 	private
 
   def blog_comment_params
-    params.require(:blog_comment).permit(:comment)
+    params.permit(:id, :user_id, :approved, :comment, :blog_post_id)
   end
-
 
 end
 end

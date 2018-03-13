@@ -14,6 +14,7 @@
 
 module Bloggity
 class BlogComment < ActiveRecord::Base
+
 	belongs_to :user
 	belongs_to :blog_post, :touch => true
 	
@@ -34,5 +35,6 @@ class BlogComment < ActiveRecord::Base
 		end
 		true
 	end
+	
 end
 end

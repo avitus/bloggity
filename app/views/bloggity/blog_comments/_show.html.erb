@@ -15,19 +15,24 @@
 
 	<div class="comment-body">
 
+		<!-- Display comment -->
 		<%= simple_format(Rinku.auto_link(sanitize(comment.comment))) %>
 		
 		<ul class="comment-actions">
+			
+			<!-- Blog moderators and the comment author can edit a comment -->
 			<% if blog_logged_in? && (current_user == comment.user || current_user.can_moderate_blog_comments?(@blog_id)) %>
 				<li><%= link_to "Edit", edit_blog_comment_path(comment.id) %></li>
 			<% end %>
 			
+			<!-- Blog moderators can approve and/or delete comments -->
 			<% if blog_logged_in? && current_user.can_moderate_blog_comments?(@blog_id) %>
 				<% unless comment.approved %>
-					<li><%= link_to "Approve", { :controller => 'blog_comments', :action => :approve, :id => comment, :referring_url => params } %></li>
+					<li><%= link_to "Approve", { controller: 'blog_comments', action: :approve, id: comment, referring_url: :back } %></li>
 				<% end %>
-				<li><%= link_to "Delete", blog_comment_path(comment, :referring_url => params ), { :method => :delete, :confirm => "Are you sure you want to delete this comment?" } %></li>
+				<li><%= link_to "Delete", blog_comment_path(comment, referring_url: :back ), { method: :delete, confirm: "Are you sure you want to delete this comment?" } %></li>
 			<% end %>
+
 		</ul>
 		
 		<% unless comment.approved %>

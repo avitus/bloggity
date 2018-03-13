@@ -3,14 +3,10 @@ module Bloggity
 
     include Bloggity::ApplicationHelper
 
-    # ALV: The page name doesn't seem to get used anywhere
-    # before_filter :get_bloggity_page_name, :except => :blog_search
-
     before_action :load_blog_post, :except => :blog_search
     before_action :blog_writer_or_redirect, :except => [:close, :index, :show, :feed, :blog_search]
 
     # GET /blog_posts
-    # GET /blog_posts.xml
     add_breadcrumb "Home", "/home"
     add_breadcrumb "Blog", "/blog"
 
@@ -43,8 +39,7 @@ module Bloggity
   		@page_name = @blog.title
 
   		respond_to do |format|
-  	      format.html # index.html.erb
-  	      format.xml  { render :xml => @blog_posts }
+  	      format.html
       end
     end
 
@@ -74,40 +69,36 @@ module Bloggity
       @tab = "blog"
       @blog_page = params[:page] || 1
 
-      Rails.logger.info("*** Fetching recent posts for blog page #{@blog_page}")
-
       @recent_posts = recent_posts(@blog_page)
-
       @blog_post = BlogPost.where("id = ? OR url_identifier = ?", params[:id], params[:id]).first
 
       if !@blog_post || (!@blog_post.is_complete  && (!current_user || !current_user.can_blog?(@blog_post.blog_id)))
+        
         @blog_post = nil
         flash[:error] = "You do not have permission to see that blog post."
-        return (redirect_to( :action => 'index' ))
+        return (redirect_to( action: 'index' ))
+     
       else
-  	  @page_name = @blog_post.title
+        
+        @page_name = @blog_post.title
         add_breadcrumb @blog_post.title, blog_named_link(@blog_post)
 
-        # Used to check off quests
-        # spawn_block do
+        # Check off any quests
         if current_user && q = Quest.find_by_url( blog_named_link(@blog_post, :quest) )
           if current_user.quests.where(:id => q.id).empty?
             q.check_quest_off(current_user)
             flash.keep[:notice] = "You have completed the task: #{q.task}"
           end
         end
-        # end
 
       end
 
       respond_to do |format|
         format.html # show.html.erb
-        format.xml  { render :xml => @blog_post }
       end
     end
 
     # GET /blog_posts/new
-    # GET /blog_posts/new.xml
     def new
       @tab = "blog"
       @blog_post = BlogPost.new(:posted_by => current_user, :fck_created => true, :blog_id => @blog_id)
@@ -122,7 +113,6 @@ module Bloggity
     end
 
     # POST /blog_posts
-    # POST /blog_posts.xml
     def create
       @tab = "blog"
       @blog_post = BlogPost.new( blog_post_params )
@@ -136,7 +126,6 @@ module Bloggity
     end
 
     # PUT /blog_posts/1
-    # PUT /blog_posts/1.xml
     def update
       @blog_post = BlogPost.find(params[:id])
 
@@ -148,7 +137,6 @@ module Bloggity
     end
 
     # DELETE /blog_posts/1
-    # DELETE /blog_posts/1.xml
     def destroy
   		@blog = @blog_post.blog
   		@blog_post.destroy
@@ -195,8 +183,9 @@ module Bloggity
   	# --------------------------------------------------------------------------------------
 
     def blog_post_params
-      params.require(:blog_post).permit(:blog_id, :title, :body, :category_id, :tag_string, :is_complete)
-      # params.permit!
+      params.permit(:id, :title, :body, :tag_string, :posted_by_id, :is_complete,
+                                        :url_identifier, :category_id, :comments_closed, :blog_id,
+                                        :fck_created, :tweeted, :blog_url_id_or_id)
     end
 
   	def load_blog_post
