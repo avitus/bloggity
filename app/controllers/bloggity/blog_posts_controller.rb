@@ -132,6 +132,7 @@ module Bloggity
       if @blog_post.update_attributes( blog_post_params )
         redirect_to blog_named_link(@blog_post)
       else
+        puts("Failed to update blog_post")
         render blog_named_link(@blog_post, :edit)
       end
     end
@@ -183,7 +184,7 @@ module Bloggity
   	# --------------------------------------------------------------------------------------
 
     def blog_post_params
-      params.permit(:id, :title, :body, :tag_string, :posted_by_id, :is_complete,
+      params.require(:blog_post).permit(:id, :title, :body, :tag_string, :posted_by_id, :is_complete,
                                         :url_identifier, :category_id, :comments_closed, :blog_id,
                                         :fck_created, :tweeted, :blog_url_id_or_id)
     end
