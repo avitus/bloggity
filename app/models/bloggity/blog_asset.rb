@@ -4,46 +4,111 @@
 # Table name: blog_assets
 #
 #  id           :integer(11)     not null, primary key
-#  blog_id      :integer(11)     
+#  blog_post_id :integer(11)     
 #  parent_id    :integer(11)     
-#  content_type :string(255)     
-#  filename     :string(255)     
-#  thumbnail    :string(255)     
-#  size         :integer(11)     
-#  width        :integer(11)     
-#  height       :integer(11)     
+#  content_type :string(255)     # Legacy field - kept for backward compatibility
+#  filename     :string(255)     # Legacy field - kept for backward compatibility  
+#  thumbnail    :string(255)     # Legacy field - kept for backward compatibility
+#  size         :integer(11)     # Legacy field - kept for backward compatibility
+#  width        :integer(11)     # Legacy field - kept for backward compatibility
+#  height       :integer(11)     # Legacy field - kept for backward compatibility
+#  migrated_to_active_storage :boolean # Track migration status
 #
 
 module Bloggity
 class BlogAsset < ActiveRecord::Base
   belongs_to :blog_post
 	
-  has_attached_file :blog_attachment, :styles => { :medium => "800x600>", :thumb => "267x214>" }	
-	
-  validates_attachment_content_type :blog_attachment, content_type:
-     ["image/jpg",
-      "image/jpeg",
+  # Active Storage attachments
+  has_one_attached :attachment
+  
+  # Active Storage variants for different sizes
+  def medium_variant
+    return nil unless attachment.attached?
+    begin
+      attachment.variant(resize_to_limit: [800, 600])
+    rescue LoadError => e
+      # image_processing gem not available - return original attachment
+      Rails.logger.warn "image_processing gem required for image variants. Add 'gem \"image_processing\", \"~> 1.0\"' to your Gemfile. Error: #{e.message}"
+      attachment
+    end
+  end
+  
+  def thumb_variant  
+    return nil unless attachment.attached?
+    begin
+      attachment.variant(resize_to_limit: [267, 214])
+    rescue LoadError => e
+      # image_processing gem not available - return original attachment
+      Rails.logger.warn "image_processing gem required for image variants. Add 'gem \"image_processing\", \"~> 1.0\"' to your Gemfile. Error: #{e.message}"
+      attachment
+    end
+  end
+  
+  # Validations for Active Storage
+  validate :attachment_presence
+  validate :attachment_content_type
+  validate :attachment_file_name
+  
+  # Compatibility methods for existing code
+  def public_filename(style = nil)
+    return nil unless attachment.attached?
+    
+    case style
+    when :medium, 'medium'
+      Rails.application.routes.url_helpers.rails_representation_url(medium_variant, only_path: true)
+    when :thumb, 'thumb'  
+      Rails.application.routes.url_helpers.rails_representation_url(thumb_variant, only_path: true)
+    else
+      Rails.application.routes.url_helpers.rails_blob_url(attachment, only_path: true)
+    end
+  end
+  
+  # Legacy compatibility - populate legacy fields from Active Storage data
+  after_save :update_legacy_fields, if: -> { attachment.attached? && !migrated_to_active_storage? }
+  
+  private
+  
+  def attachment_presence
+    errors.add(:attachment, "must be present") unless attachment.attached?
+  end
+  
+  def attachment_content_type
+    return unless attachment.attached?
+    
+    allowed_types = [
+      "image/jpg",
+      "image/jpeg", 
       "image/png",
       "image/gif",
-      "application/pdf"]
-
-  validates_attachment_file_name :blog_attachment, :matches => [/png\Z/, /jpe?g\Z/, /pdf\Z/]
-	# has_attachment  
-	  # :content_type   => :image,
-		# :storage        => :file_system,
-		# :path_prefix    => "public/images/upload/#{table_name}",
-		# :min_size       => 100.bytes,
-		# :max_size       => 6.megabytes,
-		# :resize_to      => '350x350>',	# This sets the maximum size of a side.  Aspect ratio is maintained, but the image scales so that its largest side is the size specified here.
-		# :thumbnails     => { :thumb200 => '267x214' }, # See http://www.imagemagick.org/RMagick/doc/imusage.html#geometry to find out what this means
-		# :processor      => "Rmagick", 
-		# # What type of content will you allow to be uploaded to your blog?  Set it here... by default, these are all image types (AND a pdf)
-		# :content_type => ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/gif', 'image/png','image/x-png','image/jpg','image/x-ms-bmp','image/bmp','image/x-bmp',
-			# 'image/x-bitmap','image/x-xbitmap','image/x-win-bitmap','image/x-windows-bmp','image/ms-bmp','application/bmp','application/x-bmp',
-			# 'application/x-win-bitmap','application/preview','image/jp_','application/jpg','application/x-jpg','image/pipeg','image/vnd.swiftview-jpeg',
-			# 'image/x-xbitmap','application/png','application/x-png','image/gi_','image/x-citrix-pjpeg', 'application/pdf']
-# 		
-	# validates_as_attachment
+      "application/pdf"
+    ]
+    
+    unless allowed_types.include?(attachment.content_type)
+      errors.add(:attachment, "must be a JPG, PNG, GIF, or PDF file")
+    end
+  end
+  
+  def attachment_file_name
+    return unless attachment.attached?
+    
+    allowed_extensions = /\.(png|jpe?g|pdf)\z/i
+    unless attachment.filename.to_s.match?(allowed_extensions)
+      errors.add(:attachment, "must have a PNG, JPG, or PDF extension")
+    end
+  end
+  
+  def update_legacy_fields
+    if attachment.attached?
+      blob = attachment.blob
+      update_columns(
+        content_type: blob.content_type,
+        filename: blob.filename.to_s,
+        size: blob.byte_size,
+        migrated_to_active_storage: true
+      )
+    end
+  end
 		
 end
 end

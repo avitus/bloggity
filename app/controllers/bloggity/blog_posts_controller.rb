@@ -54,13 +54,36 @@ module Bloggity
       redirect_to blog_named_link(@blog_post)
   	end
 
-  	# Upload a blog asset
+  	# Upload a blog asset using Active Storage
   	def create_asset
-  		image_params = params[:blog_asset] || {}
-  		@image = BlogAsset.new(image_params)
-  		@image.blog_post_id = image_params[:blog_post_id] # Can't mass-assign attributes of attachment_fu, so we'll set it manually here
-  		@image.save!
-  		render :text => @image.public_filename
+  		@image = BlogAsset.new(blog_post_id: blog_asset_params[:blog_post_id])
+  		
+  		if blog_asset_params[:attachment].present?
+  			@image.attachment.attach(blog_asset_params[:attachment])
+  			if @image.save
+  				render json: { 
+  					url: @image.public_filename,
+  					id: @image.id,
+  					filename: @image.attachment.filename.to_s 
+  				}
+  			else
+  				render json: { errors: @image.errors.full_messages }, status: :unprocessable_entity
+  			end
+  		elsif blog_asset_params[:uploaded_data].present?
+  			# Legacy support for attachment_fu parameter name
+  			@image.attachment.attach(blog_asset_params[:uploaded_data])
+  			if @image.save
+  				render json: { 
+  					url: @image.public_filename,
+  					id: @image.id,
+  					filename: @image.attachment.filename.to_s 
+  				}
+  			else
+  				render json: { errors: @image.errors.full_messages }, status: :unprocessable_entity
+  			end
+  		else
+  			render json: { errors: ["No file provided"] }, status: :unprocessable_entity
+  		end
   	end
 
     # GET /blog_posts/1
@@ -84,7 +107,7 @@ module Bloggity
         add_breadcrumb @blog_post.title, blog_named_link(@blog_post)
 
         # Check off any quests
-        if current_user && q = Quest.find_by_url( blog_named_link(@blog_post, :quest) )
+        if current_user && q = Quest.find_by(url: blog_named_link(@blog_post, :quest))
           if current_user.quests.where(:id => q.id).empty?
             q.check_quest_off(current_user)
             flash.keep[:notice] = "You have completed the task: #{q.task}"
@@ -187,6 +210,10 @@ module Bloggity
       params.require(:blog_post).permit(:id, :title, :body, :tag_string, :posted_by_id, :is_complete,
                                         :url_identifier, :category_id, :comments_closed, :blog_id,
                                         :fck_created, :tweeted, :blog_url_id_or_id)
+    end
+
+    def blog_asset_params
+      params.require(:blog_asset).permit(:blog_post_id, :uploaded_data, :attachment, :filename, :content_type, :size)
     end
 
   	def load_blog_post

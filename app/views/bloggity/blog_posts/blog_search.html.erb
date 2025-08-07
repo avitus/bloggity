@@ -2,10 +2,10 @@
 <% content_for :body_css do %>id='bloggity_container'<% end -%>
 
 <div id="search-box" class="center">
-	<%= form_tag blog_search_path, :method => :get do %>
+	<%= form_tag blog_search_path, method: :get do %>
 	  <p>
-	    <%= text_field_tag( :search_param, params[:search_param], :size =>  50 ) %>
-	    <%= submit_tag "Search Blog", :name => nil %>
+	    <%= text_field_tag( :search_param, params[:search_param], size: 50 ) %>
+	    <%= submit_tag "Search Blog", name: nil %>
 	  </p>
 	<% end %>
 </div>

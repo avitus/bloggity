@@ -10,7 +10,7 @@ class BlogCategoriesController < ApplicationController
 	# GET /blog_categories
   # GET /blog_categories.xml
   def index
-    @blog_categories = BlogCategory.find(:all)
+    @blog_categories = BlogCategory.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -45,7 +45,7 @@ class BlogCategoriesController < ApplicationController
   # POST /blog_categories
   # POST /blog_categories.xml
   def create
-    @blog_category = BlogCategory.new(params[:blog_category])
+    @blog_category = BlogCategory.new(blog_category_params)
 
     respond_to do |format|
       if @blog_category.save
@@ -63,7 +63,7 @@ class BlogCategoriesController < ApplicationController
   # PUT /blog_categories/1.xml
   def update
     respond_to do |format|
-      if @blog_category.update_attributes(params[:blog_category])
+      if @blog_category.update_attributes(blog_category_params)
         flash[:notice] = 'BlogCategory was successfully updated.'
         format.html { redirect_to(@blog_category) }
         format.xml  { head :ok }
@@ -86,6 +86,10 @@ class BlogCategoriesController < ApplicationController
   end
 	
 	private
+	
+	def blog_category_params
+		params.require(:blog_category).permit(:name, :parent_id, :blog_id)
+	end
 	
 	def load_blog_category
 		@blog_category = BlogCategory.find(params[:id])

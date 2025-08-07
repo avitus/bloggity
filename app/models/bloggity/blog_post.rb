@@ -24,17 +24,17 @@ class BlogPost < ActiveRecord::Base
 
   include Bloggity::ApplicationHelper
 
-  belongs_to :posted_by, :class_name => 'User'
-  belongs_to :category, :class_name => 'BlogCategory'
-  has_many :comments, :class_name => 'BlogComment'
-  has_many :approved_comments, -> { where approved: true }, :class_name => 'BlogComment'
-  has_many :assets, :class_name => 'BlogAsset'
-  has_many :tags, :class_name => 'BlogTag'
+  belongs_to :posted_by, class_name: 'User'
+  belongs_to :category, class_name: 'BlogCategory'
+  has_many :comments, class_name: 'BlogComment'
+  has_many :approved_comments, -> { where approved: true }, class_name: 'BlogComment'
+  has_many :assets, class_name: 'BlogAsset'
+  has_many :tags, class_name: 'BlogTag'
   belongs_to :blog
 
   validates_presence_of :blog_id, :posted_by_id
   validate :authorized_to_blog?
-#   validates :url_identifier, :uniqueness => true
+#   validates :url_identifier, uniqueness: true
 
   # Recommended... but only if you have it:
   # xss_terminate :except => [ :body ]
@@ -82,7 +82,7 @@ class BlogPost < ActiveRecord::Base
     these_tags = self.tag_string.split(",")
     these_tags.each do |tag|
       sanitary_tag = tag.strip.chomp
-      BlogTag.create(:name => sanitary_tag, :blog_post_id => self.id)
+      BlogTag.create(name: sanitary_tag, blog_post_id: self.id)
     end
   end
 

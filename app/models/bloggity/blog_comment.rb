@@ -16,7 +16,7 @@ module Bloggity
 class BlogComment < ActiveRecord::Base
 
 	belongs_to :user
-	belongs_to :blog_post, :touch => true
+	belongs_to :blog_post, touch: true
 	
 	validates_presence_of :blog_post_id, :user_id, :comment
 	before_create :determine_approval

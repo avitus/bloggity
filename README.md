@@ -22,6 +22,28 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+## Active Storage Migration
+
+Bloggity has been updated to use Rails Active Storage instead of attachment_fu/Paperclip for file attachments.
+
+### For New Installations
+
+Active Storage will be used automatically. Make sure your application has:
+
+1. Active Storage installed: `rails active_storage:install`
+2. Image processing gem for variants: Add `gem 'image_processing', '~> 1.0'` to your Gemfile (required for image resizing)
+3. Configure storage.yml for your preferred storage service
+
+### For Existing Installations
+
+If you're upgrading from an older version that used attachment_fu/Paperclip:
+
+1. Install Active Storage: `rails active_storage:install`
+2. Run the Bloggity migrations: `rails db:migrate`
+3. Migrate your existing blog assets: `rails blog_assets:migrate_to_active_storage`
+
+The migration will attempt to find and convert your existing uploaded files to Active Storage format. Any files that can't be found will need to be manually re-uploaded.
+
 ## Contributing
 
 1. Fork it
