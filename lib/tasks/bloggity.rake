@@ -155,10 +155,10 @@ class CreateBlogTables < ActiveRecord::Migration[4.2]
 	  add_index :bloggity_blog_posts, ["url_identifier"], :name => "index_blog_posts_on_url_identifier"
 	  add_index :bloggity_blog_posts, ["blog_id"], 		  :name => "index_blog_posts_on_blog_id"
 
-	  Blog.create(:title => "My Bloggity Blog", :subtitle => "No, this blog doesn't have a subtitle.  What's it to ya?", :url_identifier => 'main')
+	  Bloggity::Blog.create(:title => "My Bloggity Blog", :subtitle => "No, this blog doesn't have a subtitle.  What's it to ya?", :url_identifier => 'main')
 	
-	  bc = BlogCategory.create(:name => "Main blog")
-	  BlogPost.update_all(["category_id = ?", bc.id])
+	  bc = Bloggity::BlogCategory.create(:name => "Main blog")
+	  Bloggity::BlogPost.update_all(["category_id = ?", bc.id])
 
 	end
 end

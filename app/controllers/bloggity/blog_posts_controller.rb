@@ -152,7 +152,7 @@ module Bloggity
     def update
       @blog_post = BlogPost.find(params[:id])
 
-      if @blog_post.update_attributes( blog_post_params )
+      if @blog_post.update( blog_post_params )
         redirect_to blog_named_link(@blog_post)
       else
         puts("Failed to update blog_post")
@@ -185,7 +185,7 @@ module Bloggity
       @blog_search_results = BlogPost.search( Riddle::Query.escape(params[:search_param]) )
       respond_to do |format|
         format.html { render :partial => 'blog_search_results', :layout=>false }
-        format.xml  { render :xml 	=> @blog_search_results }
+        format.xml  { render xml: @blog_search_results }
       end
   	end
 

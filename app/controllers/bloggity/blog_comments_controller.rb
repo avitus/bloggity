@@ -30,7 +30,7 @@ class BlogCommentsController < ApplicationController
 	end
 
 	def update
-		@blog_comment.update_attributes(blog_comment_params)
+		@blog_comment.update(blog_comment_params)
 		redirect_to(blog_named_link(@blog_post))
 	end
 

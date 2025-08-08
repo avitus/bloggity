@@ -1,18 +1,19 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class BlogPostTest < ActiveSupport::TestCase
+	fixtures :all
 	
 	# Test our validations for new blogs
 	def test_create
-		blog_post = get_fixture(BlogPost, "blog_post_valid_and_posted")
+		blog_post = blog_posts(:blog_post_valid_and_posted)
 		assert blog_post.valid?
 		
 		blog_post.blog_id = nil
 		assert !blog_post.valid?
 		assert blog_post.errors.on(:blog_id)
 		
-		blog_post = get_fixture(BlogPost, "blog_post_valid_and_posted")
-		user = get_fixture(User, "users_001")
+		blog_post = blog_posts(:blog_post_valid_and_posted)
+		user = users(:users_001)
 		def user.can_blog?(blog_id = nil)
 			false
 		end
@@ -22,7 +23,7 @@ class BlogPostTest < ActiveSupport::TestCase
 	end
 	
 	def test_url_identifier
-		blog_post = get_fixture(BlogPost, "blog_post_valid_and_posted")
+		blog_post = blog_posts(:blog_post_valid_and_posted)
 		blog_post.is_complete = false
 		blog_post.title = "My first blog"
 		blog_post.save
@@ -35,7 +36,7 @@ class BlogPostTest < ActiveSupport::TestCase
 	end
 	
 	def test_tag_creation
-		blog_post = get_fixture(BlogPost, "blog_post_valid_and_posted")
+		blog_post = blog_posts(:blog_post_valid_and_posted)
 		blog_post.tag_string = "Pony, horsie, doggie"
 		blog_post.save
 		assert_equal blog_post.tags.size, 3
@@ -47,7 +48,7 @@ class BlogPostTest < ActiveSupport::TestCase
 
 # Need to add the equivalent of these test
 
-# describe BlogPost do
+# describe Bloggity::BlogPost do
 
 #   before(:each) do
 #     @blog = FactoryGirl.create(:blog, :title => "Memverse Blog")

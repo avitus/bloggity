@@ -4,6 +4,6 @@ class TestRoutingController < ApplicationController
   end
   
   def test_named_routes_from_plugin
-    render :text => plugin_route_path(:action => "index")
+    render plain: plugin_route_path(:action => "index")
   end
 end

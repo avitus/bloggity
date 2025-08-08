@@ -1,6 +1,6 @@
 Bloggity::Engine.routes.draw do
 
-	root :to => "blog_posts#index"
+	root to: "blog_posts#index"
 
 	resources :blogs do
 

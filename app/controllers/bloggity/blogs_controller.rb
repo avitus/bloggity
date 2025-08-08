@@ -9,7 +9,7 @@ class BlogsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @blogs }
+      format.xml  { render xml: @blogs }
     end
   end
 
@@ -27,7 +27,7 @@ class BlogsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @blog }
+      format.xml  { render xml: @blog }
     end
   end
 
@@ -43,10 +43,10 @@ class BlogsController < ApplicationController
       if @blog.save
         flash[:notice] = 'Blog was successfully created.'
         format.html { redirect_to('/blogs/' + @blog.id.to_s)}
-        format.xml  { render :xml => @blog, :status => :created, :location => @blog }
+        format.xml  { render xml: @blog, status: :created, location: @blog }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @blog.errors, :status => :unprocessable_entity }
+        format.html { render :new }
+        format.xml  { render xml: @blog.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -55,14 +55,14 @@ class BlogsController < ApplicationController
     @blog = Blog.find(params[:id])
 
     respond_to do |format|
-      if @blog.update_attributes(blog_params)
+      if @blog.update(blog_params)
         flash[:notice] = 'Blog was successfully updated.'
         format.html { redirect_to('/blogs/' + @blog.id.to_s) }
         format.xml  { head :ok }
       else
         flash[:notice] = 'Blog was not updated.'
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @blog.errors, :status => :unprocessable_entity }
+        format.html { render :edit }
+        format.xml  { render xml: @blog.errors, status: :unprocessable_entity }
       end
     end
   end
