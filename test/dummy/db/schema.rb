@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_08_07_231658) do
+ActiveRecord::Schema[7.1].define(version: 2025_08_12_055736) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_07_231658) do
     t.integer "height"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "migrated_to_active_storage", default: false
   end
 
   create_table "bloggity_blog_categories", force: :cascade do |t|
@@ -85,6 +86,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_07_231658) do
     t.boolean "fck_created"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "tweeted", default: false
   end
 
   create_table "bloggity_blog_tags", force: :cascade do |t|
@@ -105,6 +107,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_07_231658) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_bloggity_blogs_on_category_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.boolean "can_blog", default: false
+    t.boolean "can_comment", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

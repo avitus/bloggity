@@ -1,0 +1,38 @@
+# == Schema Information
+# 
+# Table name: bloggity_blogs
+#
+# t.string   "title"
+# t.string   "subtitle"
+# t.string   "url_identifier"
+# t.string   "stylesheet"
+# t.string   "feedburner_url"
+# t.integer  "category_id"
+# t.boolean  "fck_created"
+# t.datetime "created_at"
+# t.datetime "updated_at"
+
+---
+primary_blog:
+  id: 1
+  title: "Primary Blog"
+  subtitle: "The main blog for testing"
+  url_identifier: "primary-blog"
+  created_at: 2008-09-01 02:14:29
+  updated_at: 2008-09-01 02:14:29
+
+secondary_blog:
+  id: 2
+  title: "Secondary Blog"
+  subtitle: "Secondary blog for testing"
+  url_identifier: "secondary-blog"
+  created_at: 2008-09-01 02:14:29
+  updated_at: 2008-09-01 02:14:29
+
+default_blog:
+  id: 9
+  title: "Default Blog"
+  subtitle: "Default fallback blog for testing"
+  url_identifier: "main"
+  created_at: 2008-09-01 02:14:29
+  updated_at: 2008-09-01 02:14:29

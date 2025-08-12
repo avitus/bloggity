@@ -2,7 +2,7 @@
 
 # Bloggity
 
-TODO: Write a gem description
+A comprehensive Rails 7+ blog engine that provides a complete blogging solution with multi-blog support, SEO-friendly URLs, comment moderation, and Active Storage integration.
 
 ## Installation
 

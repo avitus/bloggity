@@ -1,0 +1,23 @@
+# Blog Tags for testing
+
+---
+rails_tag:
+  id: 1
+  name: "rails"
+  blog_post_id: 1
+  created_at: 2008-09-01 02:14:29
+  updated_at: 2008-09-01 02:14:29
+
+ruby_tag:
+  id: 2
+  name: "ruby"
+  blog_post_id: 1
+  created_at: 2008-09-01 02:14:29
+  updated_at: 2008-09-01 02:14:29
+
+testing_tag:
+  id: 3
+  name: "testing"
+  blog_post_id: 2
+  created_at: 2008-09-01 02:14:29
+  updated_at: 2008-09-01 02:14:29

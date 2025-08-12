@@ -125,11 +125,16 @@ module Bloggity
     def new
       @tab = "blog"
       @blog_post = BlogPost.new(:posted_by => current_user, :fck_created => true, :blog_id => @blog_id)
+      # Explicitly set category_id to nil to avoid Rails 7 belongs_to validation issues
+      @blog_post.category_id = nil
+      
   		if @blog_post.save # save it before we start editing it so we can know it's ID when it comes time to add images/assets
         Rails.logger.debug("Redirecting to: #{blog_named_link(@blog_post, :edit)}")
   		  redirect_to blog_named_link(@blog_post, :edit)
       else
         Rails.logger.error("Failed to save blog post: #{@blog_post.errors.full_messages.join(', ')}")
+        Rails.logger.error("Blog post attributes: #{@blog_post.attributes.inspect}")
+        Rails.logger.error("Validation errors: #{@blog_post.errors.to_hash}")
         flash[:error] = "Unable to create blog post: #{@blog_post.errors.full_messages.join(', ')}"
         redirect_to blog_path(@blog_id)
       end

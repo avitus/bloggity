@@ -1,0 +1,18 @@
+# Blog Categories for testing
+
+---
+technology:
+  id: 1
+  name: "Technology"
+  group_id: 0
+  blog_id: 1
+  created_at: 2008-09-01 02:14:29
+  updated_at: 2008-09-01 02:14:29
+
+business:
+  id: 2
+  name: "Business"
+  group_id: 0
+  blog_id: 1
+  created_at: 2008-09-01 02:14:29
+  updated_at: 2008-09-01 02:14:29

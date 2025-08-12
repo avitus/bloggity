@@ -20,17 +20,18 @@
 #
 
 module Bloggity
-class BlogPost < ActiveRecord::Base
+class BlogPost < ApplicationRecord
+  self.table_name = 'bloggity_blog_posts'
 
   include Bloggity::ApplicationHelper
 
   belongs_to :posted_by, class_name: 'User'
-  belongs_to :category, class_name: 'BlogCategory'
-  has_many :comments, class_name: 'BlogComment'
-  has_many :approved_comments, -> { where approved: true }, class_name: 'BlogComment'
-  has_many :assets, class_name: 'BlogAsset'
-  has_many :tags, class_name: 'BlogTag'
-  belongs_to :blog
+  belongs_to :category, class_name: 'Bloggity::BlogCategory', foreign_key: 'category_id', optional: true
+  has_many :comments, class_name: 'Bloggity::BlogComment'
+  has_many :approved_comments, -> { where approved: true }, class_name: 'Bloggity::BlogComment'
+  has_many :assets, class_name: 'Bloggity::BlogAsset'
+  has_many :tags, class_name: 'Bloggity::BlogTag'
+  belongs_to :blog, class_name: 'Bloggity::Blog'
 
   validates_presence_of :blog_id, :posted_by_id
   validate :authorized_to_blog?

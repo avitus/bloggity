@@ -4,7 +4,7 @@
 # t.datetime "updated_at"
 
 module Bloggity			
-	class BlogTag < ActiveRecord::Base
+	class BlogTag < ApplicationRecord
 		belongs_to :blog_post
 	end
 end

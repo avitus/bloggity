@@ -1,4 +1,5 @@
 # require 'thinking_sphinx'
+require 'kaminari'
 
 module Bloggity
   class Engine < Rails::Engine

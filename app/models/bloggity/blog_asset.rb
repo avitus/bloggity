@@ -16,7 +16,7 @@
 #
 
 module Bloggity
-class BlogAsset < ActiveRecord::Base
+class BlogAsset < ApplicationRecord
   belongs_to :blog_post
 	
   # Active Storage attachments

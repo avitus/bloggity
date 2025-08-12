@@ -13,7 +13,7 @@
 #
 
 module Bloggity
-class BlogComment < ActiveRecord::Base
+class BlogComment < ApplicationRecord
 
 	belongs_to :user
 	belongs_to :blog_post, touch: true
