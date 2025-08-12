@@ -125,9 +125,14 @@ module Bloggity
     def new
       @tab = "blog"
       @blog_post = BlogPost.new(:posted_by => current_user, :fck_created => true, :blog_id => @blog_id)
-  		@blog_post.save # save it before we start editing it so we can know it's ID when it comes time to add images/assets
-      Rails.logger.debug("Redirecting to: #{blog_named_link(@blog_post, :edit)}")
-  		redirect_to blog_named_link(@blog_post, :edit)
+  		if @blog_post.save # save it before we start editing it so we can know it's ID when it comes time to add images/assets
+        Rails.logger.debug("Redirecting to: #{blog_named_link(@blog_post, :edit)}")
+  		  redirect_to blog_named_link(@blog_post, :edit)
+      else
+        Rails.logger.error("Failed to save blog post: #{@blog_post.errors.full_messages.join(', ')}")
+        flash[:error] = "Unable to create blog post: #{@blog_post.errors.full_messages.join(', ')}"
+        redirect_to blog_path(@blog_id)
+      end
     end
 
     # GET /blog_posts/1/edit
