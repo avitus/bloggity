@@ -2,10 +2,9 @@ module Bloggity
   class ApplicationRecord < ActiveRecord::Base
     self.abstract_class = true
     
-    # Disable Rails 5+ default that requires belongs_to associations
-    # This allows Bloggity models to have optional associations
-    if Rails::VERSION::MAJOR >= 5
-      self.belongs_to_required_by_default = false
-    end
+    # Rails 7+ requires belongs_to associations by default.
+    # Bloggity models need optional associations (e.g., BlogPost without category)
+    # so we disable this requirement for all Bloggity models.
+    self.belongs_to_required_by_default = false
   end
 end

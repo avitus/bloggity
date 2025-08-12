@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors      = ["Andy Vitus"]
   s.email        = ["avitus@gmail.com"]
   s.homepage     = "https://github.com/avitus/bloggity"
-  s.summary      = "A Rails Blogging Engine"
-  s.description  = "A Rails Blogging Engine"
+  s.summary      = "A comprehensive Rails 7+ blog engine"
+  s.description  = "A Rails 7+ engine providing multi-blog support, SEO-friendly URLs, comment moderation, and Active Storage integration"
 
   s.files        = `git ls-files`.split("\n")
   s.require_path = 'lib'  # ALV: not included by default

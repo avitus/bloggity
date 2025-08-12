@@ -45,7 +45,7 @@ rails blog_assets:migrate_to_active_storage
 
 ## Architecture Overview
 
-Bloggity is a Rails Engine that provides complete blog functionality. Key architectural patterns:
+Bloggity is a Rails 7+ Engine that provides complete blog functionality. Key architectural patterns:
 
 1. **Rails Engine Structure**: All code is namespaced under `Bloggity::` and uses `isolate_namespace Bloggity` in lib/bloggity/engine.rb
 
@@ -75,10 +75,13 @@ Bloggity is a Rails Engine that provides complete blog functionality. Key archit
 
 ## Important Version Note
 
-The codebase targets Rails 5+ (see bloggity.gemspec: `rails >= 5.0`). When working with dependencies:
-- Use the gemspec requirements (Rails >= 5.0)
-- Run `bundle update` if you encounter dependency issues
-- jQuery-rails is a required dependency
+Bloggity is designed for Rails 7+ applications (see bloggity.gemspec: `rails >= 7.0`). Key considerations:
+- Requires Rails 7.0 or higher
+- Uses Active Storage for file uploads (replaces attachment_fu)
+- All models inherit from `Bloggity::ApplicationRecord` to handle Rails 7 defaults
+- Requires jQuery-rails for legacy JavaScript compatibility
+- Uses Kaminari for pagination
+- Requires image_processing gem for Active Storage variants
 
 ## Key Features to Maintain
 

@@ -4,23 +4,84 @@
 
 A comprehensive Rails 7+ blog engine that provides a complete blogging solution with multi-blog support, SEO-friendly URLs, comment moderation, and Active Storage integration.
 
+## Requirements
+
+- Rails 7.0 or higher
+- Ruby 3.0 or higher
+- Active Storage configured in your Rails application
+- ImageProcessing gem for image variants
+
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'bloggity'
+```ruby
+gem 'bloggity'
+```
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle install
+```
 
-Or install it yourself as:
+Mount the engine in your `config/routes.rb`:
 
-    $ gem install bloggity
+```ruby
+mount Bloggity::Engine => "/blog"
+```
+
+Install and run the migrations:
+
+```bash
+$ rails bloggity:install:migrations
+$ rails db:migrate
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+### User Integration
+
+Bloggity expects your application to provide a `User` model with these methods:
+
+```ruby
+class User < ApplicationRecord
+  def can_blog?(blog_id = nil)
+    # Return true if user can create/edit blog posts
+  end
+  
+  def can_comment?(blog_id = nil)
+    # Return true if user can comment on posts
+  end
+  
+  def blog_display_name
+    # Return the name to display for blog posts/comments
+    name || email
+  end
+  
+  def blog_comment_auto_approved?(blog_id = nil)
+    # Return true if user's comments are auto-approved
+  end
+end
+```
+
+### Authentication
+
+Your ApplicationController should provide:
+
+```ruby
+def current_user
+  # Return the currently logged-in user
+end
+
+def authenticate_user!
+  # Redirect to login if not authenticated
+end
+```
+
+### Creating Your First Blog
+
+Visit `/blog/blogs/new` to create your first blog, then `/blog/blog_posts/new` to create posts.
 
 ## Active Storage Migration
 
