@@ -15,6 +15,16 @@
 	<div class="info">
 		<%= image_tag "bloggity/time.gif" -%> Posted on <%= blog_post.created_at.strftime("%B %d, %Y") %>
 		<%= image_tag "bloggity/user.gif" -%> <%= link_to(blog_post.posted_by.display_name, [main_app, blog_post.posted_by]) -%>
+
+		<%= image_tag "bloggity/user.gif" -%>
+		<% if blog_post.posted_by.present? %>                                               
+		  <%= link_to(blog_post.posted_by.display_name, [main_app, blog_post.posted_by]) -%>
+		<% else %>                                                                          
+		  Unknown Author                                                                    
+		<% end %> 
+
+
+
 		<% if show_comment_count %>
 			<%= image_tag "bloggity/comment.gif" -%> 
 			<% if blog_post.approved_comments.empty? %>
